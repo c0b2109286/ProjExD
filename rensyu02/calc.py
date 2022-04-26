@@ -1,5 +1,6 @@
 import tkinter as tk
 import tkinter.messagebox as tkm
+from turtle import back
 from winreg import DeleteKey
 import math
 
@@ -64,7 +65,7 @@ def hitomoji_delete(event):
 
 
 for i in num_list:
-    button = tk.Button(root, text = i ,font = ("Times New Roman", 10),width=6, height = 4)
+    button = tk.Button(root, text = i ,font = ("Times New Roman", 10),width=6, height = 4,background="aquamarine")
     button.grid(column = k%3, row = k//3+2, padx=4, pady=2)
     button.bind("<1>",button__click)
     k += 1
