@@ -9,11 +9,9 @@ root.geometry("300x450")
 
 k = 0
 l = 1
-m = 0
 n = 3
 num_list = [7,8,9,4,5,6,1,2,3,".",0,"00"]
 kigou_list = ["/","*", "-", "+"]
-kakko_list = ["(",")"]
 sannkaku = ["sin", "cos", "tan"]
 
 entry = tk.Entry(justify = tk.RIGHT,width=10,font=("Times New Roman", 43))
@@ -60,6 +58,10 @@ def sannkaku_keisann(event):
         entry.delete(0, tk.END)
         entry.insert(tk.END, num)
 
+def hitomoji_delete(event):
+    pos_end_prev = len(entry.get())-1#終わりの1つ前
+    entry.delete(pos_end_prev,tk.END)
+
 
 for i in num_list:
     button = tk.Button(root, text = i ,font = ("Times New Roman", 10),width=6, height = 4)
@@ -73,12 +75,6 @@ for j in kigou_list:
     button.bind("<1>",button__click)
     l += 1
 
-for s in kakko_list:
-    button = tk.Button(root, text = s ,font = ("Times New Roman", 10),width=6, height = 4,background="gray")
-    button.grid(column = m, row = 1, padx=4, pady=2)
-    button.bind("<1>",button__click)
-    m += 1
-
 for t in sannkaku:
     button = tk.Button(root, text = t ,font = ("Times New Roman", 10),width=6, height = 4,background="gray")
     button.grid(column = 4, row = n, padx=4, pady=2)
@@ -89,16 +85,20 @@ button1 = tk.Button(root, text = "=" ,font = ("Times New Roman", 10),width=6, he
 button1.grid(column = 3, row = 5, padx=4, pady=2)
 button1.bind("<1>", get_Entry)
 
-button2 = tk.Button(root, text = "DEL" ,font = ("Times New Roman", 10),width=6, height = 4, background="hot pink")
-button2.grid(column = 4, row = 1, padx=4, pady=2)
+button2 = tk.Button(root, text = "C" ,font = ("Times New Roman", 10),width=6, height = 4, background="hot pink", fg = "red")
+button2.grid(column = 0, row = 1, padx=4, pady=2)
 button2.bind("<1>", delete_Entry)
 
-button3 = tk.Button(root, text = "+/-" ,font = ("Times New Roman", 10),width=6, height = 4, background="gray")
-button3.grid(column = 2, row = 1, padx=4, pady=2)
-button3.bind("<1>", minus)
+button3 = tk.Button(root, text = "DEL" ,font = ("Times New Roman", 10),width=6, height = 4, background="hot pink")
+button3.grid(column = 1, row = 1, padx=4, pady=2)
+button3.bind("<1>", hitomoji_delete)
 
-button3 = tk.Button(root, text = "√" ,font = ("Times New Roman", 10),width=6, height = 4, background="gray")
-button3.grid(column = 4, row = 2, padx=4, pady=2)
-button3.bind("<1>", ruto)
+button4 = tk.Button(root, text = "+/-" ,font = ("Times New Roman", 10),width=6, height = 4, background="gray")
+button4.grid(column = 2, row = 1, padx=4, pady=2)
+button4.bind("<1>", minus)
+
+button5 = tk.Button(root, text = "√" ,font = ("Times New Roman", 10),width=6, height = 4, background="gray")
+button5.grid(column = 4, row = 2, padx=4, pady=2)
+button5.bind("<1>", ruto)
 
 root.mainloop()
