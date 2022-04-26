@@ -14,6 +14,7 @@ entry.grid(column = 0, row = 0, padx=10, pady=0, columnspan=10)
 def button__click(event):
     txt = event.widget["text"]
     tkm.showinfo(txt, f"[{txt}]のボタンが押されました")
+    entry.insert(tk.END, txt)
 
 for i in num_list:
     button = tk.Button(root, text = i ,font = ("Times New Roman", 30))
