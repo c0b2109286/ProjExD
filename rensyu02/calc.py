@@ -8,7 +8,7 @@ root.geometry("300x450")
 num_list = [9, 6, 3, 8, 5, 2, 7, 4, 1]
 def button_one(num, x, y):
     button = tk.Button(root, text = num ,font = ("Times New Roman", 30))
-    button.grid(column = x, row = y)
+    button.grid(column = x, row = y, padx=10, pady=10)
 
 for i in num_list:
     button_one(i, x, y)
