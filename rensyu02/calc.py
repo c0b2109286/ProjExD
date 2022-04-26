@@ -9,9 +9,11 @@ root.geometry("300x450")
 
 k = 0
 l = 1
+m = 0
 n = 3
 num_list = [7,8,9,4,5,6,1,2,3,".",0,"00"]
 kigou_list = ["/","*", "-", "+"]
+kakko_list = ["(",")"]
 sannkaku = ["sin", "cos", "tan"]
 
 entry = tk.Entry(justify = tk.RIGHT,width=10,font=("Times New Roman", 43))
@@ -70,6 +72,12 @@ for j in kigou_list:
     button.grid(column = 3, row = l, padx=4, pady=2)
     button.bind("<1>",button__click)
     l += 1
+
+for s in kakko_list:
+    button = tk.Button(root, text = s ,font = ("Times New Roman", 10),width=6, height = 4,background="gray")
+    button.grid(column = m, row = 1, padx=4, pady=2)
+    button.bind("<1>",button__click)
+    m += 1
 
 for t in sannkaku:
     button = tk.Button(root, text = t ,font = ("Times New Roman", 10),width=6, height = 4,background="gray")
