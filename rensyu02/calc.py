@@ -30,6 +30,11 @@ def get_Entry(event):
 def delete_Entry(event):
     entry.delete(0, tk.END)
 
+def ruto(event):
+    num = entry.get()
+    num_kai = math.sqrt(int(num))
+    entry.delete(0, tk.END)
+    entry.insert(tk.END, num_kai)
 
 def sannkaku_keisann(event):
     num = entry.get()
@@ -73,5 +78,9 @@ button1.bind("<1>", get_Entry)
 button2 = tk.Button(root, text = "DEL" ,font = ("Times New Roman", 10),width=6, height = 4, background="hot pink")
 button2.grid(column = 4, row = 1, padx=4, pady=2)
 button2.bind("<1>", delete_Entry)
+
+button3 = tk.Button(root, text = "√" ,font = ("Times New Roman", 10),width=6, height = 4, background="gray")
+button3.grid(column = 4, row = 2, padx=4, pady=2)
+button3.bind("<1>", ruto)
 
 root.mainloop()
