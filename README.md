@@ -1,4 +1,23 @@
 #　プロジェクト演習I・テーマD
+## 第3回
+### tkinterで迷路ゲーム実装
+#### 3限：基本機能
+- ゲーム概要：
+    - rensyu03/maze.pyを実行すると，1500x900のcanvasに迷路が描画され，迷路に沿ってこうかとんを移動させるゲーム
+    - 実行するたびに迷路の構造は変化する
+- 操作方法：矢印キーでこうかとんを上下左右に移動する
+- プログラムの説明:
+    - maze_makerモジュールのshow_maze関数でcanvasに迷路を描画する
+    - PhotoImageクラスのコンストラクタとcreate_imageメソッドでこうかとんの画像を(1,1)に描画する
+    - bindメソッドでKeyPressにkey_down関数を，KeyReleaseにkey_up関数を紐づける
+    - main_proc関数で矢印キーに応じて，こうかとんを上下左右に1マス移動させ，afterメソッドで0.1秒後にmain_procを呼び出す
+#### 4限：追加機能
+- プログラムの説明
+    - change_image関数：プログラム実行中に0~9のいずれかのボタンを押すことでこうかとんの画像を変更可能にする関数
+    - 壁判定の追加：壁にこうかとんがめり込まないようにした
+    - eval_fin 関数：ゴールしたときに常時起動を停止し、こうかとんが停止するための関数
+    - count_up 関数：プログラムの実行が始まった時からカウントアップを始めるための関数
+
 ## 第2回
 ### tkinterで電卓実装
 #### 追加機能
@@ -113,3 +132,4 @@ button3.bind("<1>", hitomoji_delete)
 button4 = tk.Button(root, text = "+/-" ,font = ("Times New Roman", 10),width=6, height = 4, background="gray")
 button4.grid(column = 2, row = 1, padx=4, pady=2)
 button4.bind("<1>", minus)
+
