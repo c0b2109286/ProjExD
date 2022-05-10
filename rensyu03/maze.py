@@ -39,7 +39,15 @@ def eval_fin():
     id = root.after(80, main_proc)
     if mx == goal_x and my == goal_y:
         root.after_cancel(id)
+        root.after_cancel(time_id)
         #tkm.showinfo("ゴール","おめでとうございます")
+
+def count_up():
+    global tmr, time_id
+    tmr += 1
+    entry.delete(0, tk.END)
+    entry.insert(tk.END, tmr)
+    time_id = root.after(1000, count_up)
 
 def change_img():
     global tori_id, tori_num, tori
@@ -47,7 +55,6 @@ def change_img():
     if key in key_list:
         canvas.delete(tori_id)
         create_koukaton(key)
-    
     root.after(80, change_img)
 
 def add_startgoal():
@@ -70,6 +77,7 @@ if __name__ == "__main__":
     mx = 1
     my = 1
     key = ""
+    tmr = 0
 
     root = tk.Tk()
     root.geometry("1500x900")
@@ -77,8 +85,13 @@ if __name__ == "__main__":
     canvas = tk.Canvas(root, width=1500, height=900, background="black")
     canvas.place(x=0, y=0)
 
+    entry = tk.Entry(justify = tk.RIGHT,width=3,font=("Times New Roman", 43),background="green")
+    entry.grid(column = 0, row = 0, padx=5, pady=10)
+    count_up()
+
     meiro_list = maze_maker.make_maze(15, 9)
     maze_maker.show_maze(canvas, meiro_list)
+    print(meiro_list)
 
     add_startgoal()
     create_koukaton(0)
