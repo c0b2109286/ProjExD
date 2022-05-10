@@ -74,12 +74,49 @@ def add_startgoal():
     cy = start_y*100+50
     mx = start_x
     my = start_y
+                                            
+def create_enemy():
+    global enemy
+    enemy = tk.PhotoImage(file="fig/1.png")
+    teki_id = canvas.create_image(ex, ey, image = enemy, tag = "teki")
+    enemy_proc()
+
+def enemy_proc():
+    global ex, ey, mex, mey, ey_num, mey_num
+    print(mey)
+    if mey == 0:
+        ey_num*= -1
+        mey_num*= -1
+    elif mey == 8:
+        ey_num *= -1
+        mey_num*= -1
+    ey += ey_num
+    mey += mey_num
+
+    canvas.coords("teki", ex, ey)
+    enemy_id = root.after(1000, enemy_proc)
+
+def shi():     #作り途中（enemyの当たり判定）
+    global mx, my, mex, mey
+    print(mey)
+    print(my)
+    if mex == mx and mey == my:
+        root.after_cancel(id)                          
+        root.after_cancel(time_id) 
+        root.after(50, shi)
+
 
 if __name__ == "__main__":
     mx = 1
     my = 1
+    ex = 750
+    ey = 50
+    mex = 7
+    mey = 0
     key = ""
     tmr = 0
+    ey_num = -100
+    mey_num = -1
 
     root = tk.Tk()
     root.geometry("1500x900")
@@ -97,6 +134,8 @@ if __name__ == "__main__":
 
     add_startgoal()
     create_koukaton(0)
+    create_enemy()
+    shi()
 
     root.bind("<KeyPress>", key_down)
     root.bind("<KeyRelease>", key_up)
