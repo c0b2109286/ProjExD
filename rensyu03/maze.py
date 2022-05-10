@@ -1,6 +1,7 @@
-from email.mime import image
+from itertools import cycle
 import tkinter as tk
 import maze_maker
+import random
 
 def create_koukaton():
     global cx, cy, tori
@@ -32,20 +33,40 @@ def main_proc():
     canvas.coords("tori", cx, cy)
     root.after(80, main_proc)
 
+def add_startgoal():
+    global start_x, start_y, goal_x, goal_y, cx, cy, mx, my
+    while True:
+        start_x = random.randint(1, 14)
+        start_y = random.randint(1, 8)
+        goal_x = random.randint(1, 14)
+        goal_y = random.randint(1, 8)
+        if meiro_list[start_y][start_x] == 0 and meiro_list[goal_y][goal_x] == 0:
+            break
+    canvas.create_rectangle(start_x*100, start_y*100, start_x*100+100, start_y*100+100, fill="blue")
+    canvas.create_rectangle(goal_x*100, goal_y*100, goal_x*100+100, goal_y*100+100, fill="red")
+    cx = start_x*100+50
+    cy = start_y*100+50
+    mx = start_x
+    my = start_y
+
 if __name__ == "__main__":
     mx = 1
     my = 1
-    cx = 150
-    cy = 150
     key = ""
+
     root = tk.Tk()
     root.geometry("1500x900")
+
     canvas = tk.Canvas(root, width=1500, height=900, background="black")
     canvas.place(x=0, y=0)
+
     meiro_list = maze_maker.make_maze(15, 9)
-    print(meiro_list)
     maze_maker.show_maze(canvas, meiro_list)
+
+    add_startgoal()
     create_koukaton()
+
+
     root.bind("<KeyPress>", key_down)
     root.bind("<KeyRelease>", key_up)
     root.after(80, main_proc)
