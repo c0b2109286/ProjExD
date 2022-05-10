@@ -14,7 +14,9 @@ def key_down(event):
     global key
     key = event.keysym
 
-
+def key_up(event):
+    global key
+    key = ""
 
 if __name__ == "__main__":
     root = tk.Tk()
@@ -23,4 +25,5 @@ if __name__ == "__main__":
     canvas.place(x=0, y=0)
     create_koukaton()
     root.bind("<KeyPress>", key_down)
+    root.bind("<KeyRelease>", key_down)
     root.mainloop()
