@@ -38,8 +38,8 @@ def main_proc():
 def eval_fin():
     id = root.after(80, main_proc)
     if mx == goal_x and my == goal_y:
-        root.after_cancel(id)
-        root.after_cancel(time_id)
+        root.after_cancel(id)                           #main_procの常時起動を停止
+        root.after_cancel(time_id)                      #count_upの常時起動の停止
         tkm.showinfo("ゴール","おめでとうございます")
 
 def count_up():
@@ -53,8 +53,8 @@ def change_img():
     global tori_id, tori_num, tori
     key_list = ["0","1","2","3","4","5","6","7","8","9"]
     if key in key_list:
-        canvas.delete(tori_id)
-        create_koukaton(key)
+        canvas.delete(tori_id)                                  #起動時に描画したこうかとんの削除
+        create_koukaton(key)                                    #押された番号のこうかとんを描画
     root.after(80, change_img)
 
 def add_startgoal():
@@ -66,8 +66,10 @@ def add_startgoal():
         goal_y = random.randint(1, 8)
         if meiro_list[start_y][start_x] == 0 and meiro_list[goal_y][goal_x] == 0:
             break
-    canvas.create_rectangle(start_x*100, start_y*100, start_x*100+100, start_y*100+100, fill="blue")
-    canvas.create_rectangle(goal_x*100, goal_y*100, goal_x*100+100, goal_y*100+100, fill="red")
+    canvas.create_rectangle(start_x*100, start_y*100,                                       #
+    start_x*100+100, start_y*100+100, fill="blue")
+    canvas.create_rectangle(goal_x*100, goal_y*100, 
+    goal_x*100+100, goal_y*100+100, fill="red")
     cx = start_x*100+50
     cy = start_y*100+50
     mx = start_x
@@ -85,7 +87,7 @@ if __name__ == "__main__":
     canvas = tk.Canvas(root, width=1500, height=900, background="black")
     canvas.place(x=0, y=0)
 
-    entry = tk.Entry(justify = tk.RIGHT,width=3,font=("Times New Roman", 43),background="green")
+    entry = tk.Entry(justify = tk.CENTER,width=3,font=("Times New Roman", 43),background="green")   #タイマーを描画
     entry.grid(column = 0, row = 0, padx=5, pady=10)
     count_up()
 
