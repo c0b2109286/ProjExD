@@ -1,12 +1,20 @@
 from email.mime import image
 import tkinter as tk
 
+cx = 300
+cy = 400
+key = ""
+
 def create_koukaton():
     global cx, cy, tori
-    cx = 300
-    cy = 400
     tori = tk.PhotoImage(file="fig/5.png")
     canvas.create_image(cx, cy, image = tori, tag = "tori")
+
+def key_down(event):
+    global key
+    key = event.keysym
+
+
 
 if __name__ == "__main__":
     root = tk.Tk()
@@ -14,4 +22,5 @@ if __name__ == "__main__":
     canvas = tk.Canvas(root, width=1500, height=900, background="black")
     canvas.place(x=0, y=0)
     create_koukaton()
+    root.bind("<KeyPress>", key_down)
     root.mainloop()
