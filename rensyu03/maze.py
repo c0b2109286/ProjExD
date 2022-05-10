@@ -40,5 +40,6 @@ if __name__ == "__main__":
     create_koukaton()
     root.bind("<KeyPress>", key_down)
     root.bind("<KeyRelease>", key_up)
-    root.after(20, main_proc)
+    main_proc()
+    meiro_list = maze_maker.make_maze(15, 9)
     root.mainloop()
