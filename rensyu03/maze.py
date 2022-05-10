@@ -1,7 +1,7 @@
-from itertools import cycle
 import tkinter as tk
 import maze_maker
 import random
+import tkinter.messagebox as tkm
 
 def create_koukaton():
     global cx, cy, tori
@@ -30,8 +30,16 @@ def main_proc():
     elif key == "Up" and meiro_list[my-1][mx] == 0:
         my -= 1
         cy -= 100
+
     canvas.coords("tori", cx, cy)
-    root.after(80, main_proc)
+    eval_fin()
+    create_koukaton()
+
+def eval_fin():
+    id = root.after(80, main_proc)
+    if mx == goal_x and my == goal_y:
+        root.after_cancel(id)
+        #tkm.showinfo("ゴール","おめでとうございます")
 
 def add_startgoal():
     global start_x, start_y, goal_x, goal_y, cx, cy, mx, my
@@ -69,5 +77,5 @@ if __name__ == "__main__":
 
     root.bind("<KeyPress>", key_down)
     root.bind("<KeyRelease>", key_up)
-    root.after(80, main_proc)
+    main_proc()
     root.mainloop()
