@@ -3,13 +3,13 @@ import maze_maker
 import random
 import tkinter.messagebox as tkm
 
-def create_koukaton(x):
+def create_koukaton(x):                                                    
     global cx, cy, tori, tori_id, tori_num, tori
     tori_num = f"fig/{x}.png"
     tori = tk.PhotoImage(file=tori_num)
     tori_id = canvas.create_image(cx, cy, image = tori, tag = "tori")
 
-def key_down(event):
+def key_down(event):                                                           
     global key
     key = event.keysym
 
@@ -60,15 +60,15 @@ def change_img():
 def add_startgoal():
     global start_x, start_y, goal_x, goal_y, cx, cy, mx, my
     while True:
-        start_x = random.randint(1, 14)
+        start_x = random.randint(1, 4)
         start_y = random.randint(1, 8)
-        goal_x = random.randint(1, 14)
+        goal_x = random.randint(10, 14)
         goal_y = random.randint(1, 8)
         if meiro_list[start_y][start_x] == 0 and meiro_list[goal_y][goal_x] == 0:
             break
-    canvas.create_rectangle(start_x*100, start_y*100,                                       #
+    canvas.create_rectangle(start_x*100, start_y*100,                                       #スタート位置のマスを青くする
     start_x*100+100, start_y*100+100, fill="blue")
-    canvas.create_rectangle(goal_x*100, goal_y*100, 
+    canvas.create_rectangle(goal_x*100, goal_y*100,                                         #ゴール位置のマスを赤くする
     goal_x*100+100, goal_y*100+100, fill="red")
     cx = start_x*100+50
     cy = start_y*100+50
