@@ -18,6 +18,19 @@ def key_up(event):
     global key
     key = ""
 
+def main_proc():
+    global cx, cy, key
+    if key == "Right":
+        cx += 20
+    elif key == "Left":
+        cx -= 20
+    elif key == "Down":
+        cy += 20
+    elif key == "Up":
+        cy -= 20
+    canvas.coords("tori", cx, cy)
+    root.after(20, main_proc)
+
 if __name__ == "__main__":
     root = tk.Tk()
     root.geometry("1500x900")
@@ -25,5 +38,6 @@ if __name__ == "__main__":
     canvas.place(x=0, y=0)
     create_koukaton()
     root.bind("<KeyPress>", key_down)
-    root.bind("<KeyRelease>", key_down)
+    root.bind("<KeyRelease>", key_up)
+    root.after(20, main_proc)
     root.mainloop()
