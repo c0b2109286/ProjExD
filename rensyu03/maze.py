@@ -40,7 +40,7 @@ def eval_fin():
     if mx == goal_x and my == goal_y:
         root.after_cancel(id)
         root.after_cancel(time_id)
-        #tkm.showinfo("ゴール","おめでとうございます")
+        tkm.showinfo("ゴール","おめでとうございます")
 
 def count_up():
     global tmr, time_id
