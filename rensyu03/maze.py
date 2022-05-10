@@ -3,10 +3,11 @@ import maze_maker
 import random
 import tkinter.messagebox as tkm
 
-def create_koukaton():
-    global cx, cy, tori
-    tori = tk.PhotoImage(file="fig/5.png")
-    canvas.create_image(cx, cy, image = tori, tag = "tori")
+def create_koukaton(x):
+    global cx, cy, tori, tori_id, tori_num, tori
+    tori_num = f"fig/{x}.png"
+    tori = tk.PhotoImage(file=tori_num)
+    tori_id = canvas.create_image(cx, cy, image = tori, tag = "tori")
 
 def key_down(event):
     global key
@@ -33,13 +34,21 @@ def main_proc():
 
     canvas.coords("tori", cx, cy)
     eval_fin()
-    create_koukaton()
 
 def eval_fin():
     id = root.after(80, main_proc)
     if mx == goal_x and my == goal_y:
         root.after_cancel(id)
         #tkm.showinfo("ゴール","おめでとうございます")
+
+def change_img():
+    global tori_id, tori_num, tori
+    key_list = ["0","1","2","3","4","5","6","7","8","9"]
+    if key in key_list:
+        canvas.delete(tori_id)
+        create_koukaton(key)
+    
+    root.after(80, change_img)
 
 def add_startgoal():
     global start_x, start_y, goal_x, goal_y, cx, cy, mx, my
@@ -72,10 +81,10 @@ if __name__ == "__main__":
     maze_maker.show_maze(canvas, meiro_list)
 
     add_startgoal()
-    create_koukaton()
-
+    create_koukaton(0)
 
     root.bind("<KeyPress>", key_down)
     root.bind("<KeyRelease>", key_up)
     main_proc()
+    change_img()
     root.mainloop()
