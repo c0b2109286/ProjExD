@@ -4,24 +4,29 @@ import random
 import math
 
 def main():
-    global cx, cy, tori_rect
+    global cx, cy, counter, run, tori_rect
 
     tori_img = pg.image.load("fig/0.png")
     tori_img_2X = pg.transform.rotozoom(tori_img, angle=0.0 ,scale=2.0)
     tori_rect = tori_img_2X.get_rect()
+    pg.time.set_timer(pg.USEREVENT, 1000)
 
     while True:
         pg.display.update()
         screan.fill("BLACK")
         bakudan()
         main_proc()
+        timer()
         tori_rect.center = cx, cy
         screan.blit(tori_img_2X, tori_rect)
 
         for event in pg.event.get():
             if event.type == pg.QUIT: return
-            clock = pg.time.Clock()
-            clock.tick(100)
+            if event.type == pg.USEREVENT and run==True:
+                counter += 1
+            r = tori_rect.colliderect(image_rect)
+            if r == True:
+                run = False
 
 def main_proc():
     global cx, cy
@@ -77,10 +82,17 @@ def check_bound():
     elif by <= 0 or by >= 880:
         vy *= -1
 
+def timer():
+    font = pg.font.Font("/Windows/Fonts/meiryo.ttc", 60)
+    text = font.render(str(counter), True, (255,255,255), (0,0,0))
+    screan.blit(text, (80,80))
+
 if  __name__ == "__main__":
     cx, cy = 900, 400
     bx, by = random.randint(1, 1599), random.randint(1, 899)
     vx, vy = 1,1
+    counter = 0
+    run = True
     r = False
     pg.init()
 
