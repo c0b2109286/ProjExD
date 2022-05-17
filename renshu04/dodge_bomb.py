@@ -1,22 +1,21 @@
-import random
-from xml.etree.ElementTree import tostring
 import pygame as pg
 import sys
+import random
+import math
 
 def main():
     global cx, cy
 
     tori_img = pg.image.load("fig/0.png")
     tori_img_2X = pg.transform.rotozoom(tori_img, angle=0.0 ,scale=2.0)
-    tori_rect = tori_img_2X.get_rect()
 
     while True:
         pg.display.update()
         main_proc()
         screan.fill("BLACK")
         bakudan()
-        tori_rect.center = cx, cy
-        screan.blit(tori_img_2X, tori_rect)
+        bakudan_proc()
+        screan.blit(tori_img_2X, (cx, cy))
 
         for event in pg.event.get():
             if event.type == pg.QUIT: return
@@ -40,10 +39,15 @@ def bakudan():
     image = pg.Surface(size)
     image.get_colorkey()
     pg.draw.circle(image, (255,0,0), (10, 10), 10)
-    image_rect = image.get_rect()
-    image_rect.center = bx, by
-    screan.blit(image, image_rect)
+    screan.blit(image, (bx, by))
 
+def bakudan_proc():
+    global bx, by
+    vx = 1
+    vy = 1
+    bx += vx
+    by += vy
+    
 
 if  __name__ == "__main__":
     cx, cy = 900, 400
@@ -57,5 +61,3 @@ if  __name__ == "__main__":
 
     pg.quit()
     sys.exit()
-
-    
