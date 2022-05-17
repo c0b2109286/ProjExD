@@ -8,6 +8,7 @@ def main():
 
     tori_img = pg.image.load("fig/0.png")
     tori_img_2X = pg.transform.rotozoom(tori_img, angle=0.0 ,scale=2.0)
+    tori_rect = tori_img_2X.get_rect()
 
     while True:
         pg.display.update()
@@ -15,7 +16,8 @@ def main():
         screan.fill("BLACK")
         bakudan()
         bakudan_proc()
-        screan.blit(tori_img_2X, (cx, cy))
+        tori_rect.center = cx, cy
+        screan.blit(tori_img_2X, tori_rect)
 
         for event in pg.event.get():
             if event.type == pg.QUIT: return
@@ -33,25 +35,49 @@ def main_proc():
         cx -= 1
     elif key[pg.K_RIGHT]:
         cx += 1
+    check_bound()
 
 def bakudan():
     size = (20, 20)
     image = pg.Surface(size)
     image.get_colorkey()
     pg.draw.circle(image, (255,0,0), (10, 10), 10)
-    screan.blit(image, (bx, by))
+    image_rect = image.get_rect()
+    image_rect.center = bx, by
+    screan.blit(image, image_rect)
 
 def bakudan_proc():
-    global bx, by
-    vx = 1
-    vy = 1
+    global bx, by, vx, vy
     bx += vx
     by += vy
-    
+
+
+def calc_dist():
+    kyori = math.sqrt(((cx-bx)**2)+((cy-by)**2))
+    if kyori < 30:
+        return "break"
+
+def check_bound():
+    global cx, cy, bx, by, vx, vy
+    if cx < 0:
+        cx += 1
+    elif cx > 1504:
+        cx -= 1
+    elif cy < 0:
+        cy += 1
+    elif cy > 760:
+        cy -=1
+
+    if bx <= 0 or bx >= 1580:
+        vx *= -1
+
+    elif by <= 0 or by >= 880:
+        vy *= -1
 
 if  __name__ == "__main__":
     cx, cy = 900, 400
-    bx, by = random.randint(1, 1599), random.randint(1, 899)
+    bx, by =  random.randint(1, 1599), random.randint(1, 899)
+    vx, vy = 1,1
     pg.init()
 
     pg.display.set_caption("逃げろ！こうかとん")
