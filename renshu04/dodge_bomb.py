@@ -4,7 +4,7 @@ import random
 import math
 
 def main():
-    global cx, cy
+    global cx, cy, tori_rect
 
     tori_img = pg.image.load("fig/0.png")
     tori_img_2X = pg.transform.rotozoom(tori_img, angle=0.0 ,scale=2.0)
@@ -12,10 +12,9 @@ def main():
 
     while True:
         pg.display.update()
-        main_proc()
         screan.fill("BLACK")
         bakudan()
-        bakudan_proc()
+        main_proc()
         tori_rect.center = cx, cy
         screan.blit(tori_img_2X, tori_rect)
 
@@ -26,6 +25,10 @@ def main():
 
 def main_proc():
     global cx, cy
+    r = tori_rect.colliderect(image_rect)
+    if r == True:
+        return
+
     key = pg.key.get_pressed()
     if key[pg.K_UP]:
         cy -= 1
@@ -35,9 +38,9 @@ def main_proc():
         cx -= 1
     elif key[pg.K_RIGHT]:
         cx += 1
-    check_bound()
 
 def bakudan():
+    global image_rect
     size = (20, 20)
     image = pg.Surface(size)
     image.get_colorkey()
@@ -45,17 +48,17 @@ def bakudan():
     image_rect = image.get_rect()
     image_rect.center = bx, by
     screan.blit(image, image_rect)
+    bakudan_proc()
 
 def bakudan_proc():
     global bx, by, vx, vy
+    r = tori_rect.colliderect(image_rect)
+    if r == True:
+        return
+
     bx += vx
     by += vy
-
-
-def calc_dist():
-    kyori = math.sqrt(((cx-bx)**2)+((cy-by)**2))
-    if kyori < 30:
-        return "break"
+    check_bound()
 
 def check_bound():
     global cx, cy, bx, by, vx, vy
@@ -76,8 +79,9 @@ def check_bound():
 
 if  __name__ == "__main__":
     cx, cy = 900, 400
-    bx, by =  random.randint(1, 1599), random.randint(1, 899)
+    bx, by = random.randint(1, 1599), random.randint(1, 899)
     vx, vy = 1,1
+    r = False
     pg.init()
 
     pg.display.set_caption("逃げろ！こうかとん")
