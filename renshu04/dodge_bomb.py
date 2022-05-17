@@ -20,6 +20,7 @@ def main():
         timer()
         tori_rect.center = cx, cy
         screan.blit(tori_img_2X, tori_rect)
+        game_over()
 
         for event in pg.event.get():
             if event.type == pg.QUIT: return
@@ -120,6 +121,13 @@ def timer():
     text = font.render(str(counter), True, (255, 255, 255), (0,0,0))
     text.set_colorkey((0, 0, 0))
     screan.blit(text, (60,60))
+
+def game_over():
+    if r == True:
+        font = pg.font.Font("/Windows/Fonts/meiryo.ttc", 200)
+        text = font.render("GAME OVER", True, (255, 55, 0), (0,0,0))
+        text.set_colorkey((0, 0, 0))
+        screan.blit(text, (200,250))
     
 
 if  __name__ == "__main__":
