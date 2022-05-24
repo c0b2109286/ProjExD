@@ -16,7 +16,7 @@ class Bird(pg.sprite.Sprite):       #Birdクラス（とり描写）
     key_data = {"K_UP":-1, "K_DOWN":1, "K_LEFT":-1, "K_RIGHT":1}
 
     def __init__(self, tori_name, rate, x, y):
-        # rate：拡大率
+        # rate：拡大率, rate :  
         super().__init__()
         self.image = pg.transform.rotozoom(pg.image.load(tori_name), angle=0, scale=rate)           #とり画像の拡大
         self.rect = self.image.get_rect()       #Rect取得
@@ -70,6 +70,10 @@ def main():
     bird = Bird("fig/6.png", 2, 900, 400)
     bomb = Bomb((255, 0, 0), 10, 1, 1, screan)
 
+    bombs = pg.sprite.Group()
+    for _ in range(5):
+        bombs.add( Bomb((255, 0, 0), 10, 1, 1, screan) )
+
     while True:
         pg.display.update()
         screan.disp.blit(screan.image, (0,0))       #背景画像の貼り付け (0, 0)
@@ -79,6 +83,7 @@ def main():
         
         screan.disp.blit(bomb.image, bomb.rect)     #爆弾画像の貼り付け
         bomb.update()                               #爆弾座標のアップデート
+
 
         if pg.sprite.collide_rect(bird, bomb):        #とりが爆弾に衝突したとき
             return                                  #whileを抜ける
