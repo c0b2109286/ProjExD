@@ -2,7 +2,7 @@ import pygame as pg
 import sys
 import random
 
-class Screan:       #Screenクラス（スクリーン描写）
+class Screan(pg.sprite.Sprite):       #Screenクラス（スクリーン描写）
 
     def __init__(self, fn = "fig/pg_bg.jpg", width = 1600, height = 900, title = "逃げろ！こうかとん"):
         self.width = width
@@ -12,7 +12,7 @@ class Screan:       #Screenクラス（スクリーン描写）
         self.rect = self.disp.get_rect()        #Rect
         self.image = pg.image.load(fn)      #背景画像
 
-class Bird:       #Birdクラス（とり描写）
+class Bird(pg.sprite.Sprite):       #Birdクラス（とり描写）
     key_data = {"K_UP":-1, "K_DOWN":1, "K_LEFT":-1, "K_RIGHT":1}
 
     def __init__(self, tori_name, rate, x, y):
@@ -43,7 +43,7 @@ class Bird:       #Birdクラス（とり描写）
         elif self.rect.centery > 770:
             self.rect.centery -=1
 
-class Bomb():
+class Bomb(pg.sprite.Sprite):
     def __init__(self, color, hankei, speed_x, speed_y, screen):
         # hakei : ボールの半径, speed_x : ｘ方向へのボールの速さ , speed_y : ｘ方向へのボールの速さ, screen : screenオブジェクト
         self.image = pg.Surface((20, 20))
