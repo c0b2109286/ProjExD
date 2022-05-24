@@ -81,8 +81,9 @@ def main():
         screan.disp.blit(bird.image, bird.rect)     #とり画像の貼り付け
         bird.update()                               #とり座標のアップデート
         
-        screan.disp.blit(bomb.image, bomb.rect)     #爆弾画像の貼り付け
-        bomb.update()                               #爆弾座標のアップデート
+        #screan.disp.blit(bomb.image, bomb.rect)     #爆弾画像の貼り付け
+        bombs.update()                               #爆弾座標のアップデート
+        bombs.draw(screan.disp)                          
 
 
         if pg.sprite.collide_rect(bird, bomb):        #とりが爆弾に衝突したとき
