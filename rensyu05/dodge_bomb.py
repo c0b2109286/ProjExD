@@ -17,6 +17,7 @@ class Bird(pg.sprite.Sprite):       #Birdクラス（とり描写）
 
     def __init__(self, tori_name, rate, x, y):
         # rate：拡大率
+        super().__init__()
         self.image = pg.transform.rotozoom(pg.image.load(tori_name), angle=0, scale=rate)           #とり画像の拡大
         self.rect = self.image.get_rect()       #Rect取得
         self.rect.center = x, y
@@ -46,6 +47,7 @@ class Bird(pg.sprite.Sprite):       #Birdクラス（とり描写）
 class Bomb(pg.sprite.Sprite):
     def __init__(self, color, hankei, speed_x, speed_y, screen):
         # hakei : ボールの半径, speed_x : ｘ方向へのボールの速さ , speed_y : ｘ方向へのボールの速さ, screen : screenオブジェクト
+        super().__init__()
         self.image = pg.Surface((20, 20))
         pg.draw.circle(self.image , color, (10, 10), hankei)
         self.rect = self.image.get_rect()
@@ -59,9 +61,9 @@ class Bomb(pg.sprite.Sprite):
         self.rect.move_ip(self.vx, self.vy)
 
         if self.rect.centerx < 0 or self.rect.centerx > 1580:
-            self.vx *= -1
+            self.vx *= -1           #ボールの進む向き反転
         if self.rect.centery < 0 or self.rect.centery > 880:
-            self.vy *= -1
+            self.vy *= -1           #ボールの進む向き反転
 
 def main():
     screan = Screan()       #コンストラクタを呼び出す
