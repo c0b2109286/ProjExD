@@ -1,3 +1,4 @@
+from itertools import count
 import pygame as pg
 import sys
 import random
@@ -16,7 +17,7 @@ class Bird(pg.sprite.Sprite):       #Birdクラス（とり描写）
     key_data = {"K_UP":-1, "K_DOWN":1, "K_LEFT":-1, "K_RIGHT":1}
 
     def __init__(self, tori_name, rate, x, y):
-        # rate：拡大率, rate :  
+        # rate：拡大率 
         super().__init__()
         self.image = pg.transform.rotozoom(pg.image.load(tori_name), angle=0, scale=rate)           #とり画像の拡大
         self.rect = self.image.get_rect()       #Rect取得
@@ -48,9 +49,9 @@ class Bomb(pg.sprite.Sprite):
     def __init__(self, color, hankei, speed_x, speed_y, screen):
         # hakei : ボールの半径, speed_x : ｘ方向へのボールの速さ , speed_y : ｘ方向へのボールの速さ, screen : screenオブジェクト
         super().__init__()
-        self.image = pg.Surface((20, 20))
-        pg.draw.circle(self.image , color, (10, 10), hankei)
-        self.rect = self.image.get_rect()
+        self.image = pg.Surface((20, 20))                       #surfaceを用意
+        pg.draw.circle(self.image , color, (10, 10), hankei)    #surfaceに円を描画
+        self.rect = self.image.get_rect()                       #rect取得
         self.image.set_colorkey((0,0,0))
         self.rect.centerx =   random.randint(0, screen.rect.width)           #爆弾のｘ座標（ランダム）
         self.rect.centery =   random.randint(0, screen.rect.height)          #爆弾のｙ座標（ランダム）
@@ -67,43 +68,59 @@ class Bomb(pg.sprite.Sprite):
             self.vy *= -1           #ボールの進む向き反転
             sounds[0].play()
 
+
+class Timer:            #Timerクラス（時間を表示すする）
+    def __init__(self, font, num):
+        # font : 時間のフォント, num : 時間の初期値
+        self.font = font
+        self.counter = num
+        self.text = self.font.render(str(self.counter), True, (155, 126, 255), (0,0,0))
+        self.text.set_colorkey((0, 0, 0))
+
+    def update(self):
+        self.counter += 1       #一秒たす
+        self.text = self.font.render(str(self.counter), True, (155, 126, 255), (0,0,0))
+        self.text.set_colorkey((0, 0, 0))
+
 def main():
     sounds[1].play()
     screan = Screan()       #コンストラクタを呼び出す
+    timer = Timer(pg.font.Font("/Windows/Fonts/meiryo.ttc", 100) , 0)
 
-    bombs = pg.sprite.Group()
+    bombs = pg.sprite.Group()                                   #爆弾用のからのコンテナ作成
     for _ in range(5):
-        bombs.add( Bomb((255, 0, 0), 10, 1, 1, screan) )
+        bombs.add( Bomb((255, 0, 0), 10, 1, 1, screan) )        #爆弾を追加（五回）
 
-    birds = pg.sprite.Group()
-    birds.add(Bird("fig/6.png", 2, 900, 400))
+    birds = pg.sprite.Group()                                   #こうかとん用のからのコンテナ作成
+    birds.add(Bird("fig/6.png", 2, 900, 400))                   #こうかとんを追加
+
+    pg.time.set_timer(pg.USEREVENT, 1000)
 
     while True:
         pg.display.update()
         screan.disp.blit(screan.image, (0,0))       #背景画像の貼り付け (0, 0)
-
-        # screan.disp.blit(bird.image, bird.rect)     
+  
         birds.update()                               #とり座標のアップデート
         birds.draw(screan.disp)                      #とり画像の貼り付け
-
-        #screan.disp.blit(bomb.image, bomb.rect)     
+ 
         bombs.update()                               #爆弾座標のアップデート
-        bombs.draw(screan.disp)                      #爆弾画像の貼り付け                        
+        bombs.draw(screan.disp)                      #爆弾画像の貼り付け   
 
+        screan.disp.blit(timer.text, (60,60))            
 
         if len(pg.sprite.groupcollide(birds, bombs, False, False)) != 0:        #とりが爆弾に衝突したとき
             return                                  #whileを抜ける
 
         for event in pg.event.get():
-            if event.type == pg.QUIT: return        
-
+            if event.type == pg.QUIT: return
+            if event.type == pg.USEREVENT:            #ユーザーイベントが起こった時
+                timer.update()                        #タイマーのアップデートを行う
 if __name__ == "__main__":
     pg.init()
 
-    sounds = []
-    sounds.append(pg.mixer.Sound("oto/ball.wav"))
-    sounds.append(pg.mixer.Sound("oto/bgm.wav"))
-    print(sounds)
+    sounds = []                                       #BGM、効果音のリスト
+    sounds.append(pg.mixer.Sound("oto/ball.wav"))     #効果音追加
+    sounds.append(pg.mixer.Sound("oto/bgm.wav"))      #BGMの追加
 
     main()
     pg.quit()
