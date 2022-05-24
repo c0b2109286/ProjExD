@@ -80,7 +80,7 @@ def main():
         screan.disp.blit(bomb.image, bomb.rect)     #爆弾画像の貼り付け
         bomb.update()                               #爆弾座標のアップデート
 
-        if bird.rect.colliderect(bomb.rect):        #とりが爆弾に衝突したとき
+        if pg.sprite.collide_rect(bird, bomb):        #とりが爆弾に衝突したとき
             return                                  #whileを抜ける
 
         for event in pg.event.get():
