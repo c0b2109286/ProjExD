@@ -62,13 +62,14 @@ class Bomb(pg.sprite.Sprite):
 
         if self.rect.centerx < 0 or self.rect.centerx > 1580:
             self.vx *= -1           #ボールの進む向き反転
+            sounds[0].play()
         if self.rect.centery < 0 or self.rect.centery > 880:
             self.vy *= -1           #ボールの進む向き反転
+            sounds[0].play()
 
 def main():
+    sounds[1].play()
     screan = Screan()       #コンストラクタを呼び出す
-    # bird = Bird("fig/6.png", 2, 900, 400)
-    # bomb = Bomb((255, 0, 0), 10, 1, 1, screan)
 
     bombs = pg.sprite.Group()
     for _ in range(5):
@@ -98,6 +99,12 @@ def main():
 
 if __name__ == "__main__":
     pg.init()
+
+    sounds = []
+    sounds.append(pg.mixer.Sound("oto/ball.wav"))
+    sounds.append(pg.mixer.Sound("oto/bgm.wav"))
+    print(sounds)
+
     main()
     pg.quit()
     sys.exit()
