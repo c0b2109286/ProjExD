@@ -67,26 +67,30 @@ class Bomb(pg.sprite.Sprite):
 
 def main():
     screan = Screan()       #コンストラクタを呼び出す
-    bird = Bird("fig/6.png", 2, 900, 400)
-    bomb = Bomb((255, 0, 0), 10, 1, 1, screan)
+    # bird = Bird("fig/6.png", 2, 900, 400)
+    # bomb = Bomb((255, 0, 0), 10, 1, 1, screan)
 
     bombs = pg.sprite.Group()
     for _ in range(5):
         bombs.add( Bomb((255, 0, 0), 10, 1, 1, screan) )
 
+    birds = pg.sprite.Group()
+    birds.add(Bird("fig/6.png", 2, 900, 400))
+
     while True:
         pg.display.update()
         screan.disp.blit(screan.image, (0,0))       #背景画像の貼り付け (0, 0)
 
-        screan.disp.blit(bird.image, bird.rect)     #とり画像の貼り付け
-        bird.update()                               #とり座標のアップデート
-        
-        #screan.disp.blit(bomb.image, bomb.rect)     #爆弾画像の貼り付け
+        # screan.disp.blit(bird.image, bird.rect)     
+        birds.update()                               #とり座標のアップデート
+        birds.draw(screan.disp)                      #とり画像の貼り付け
+
+        #screan.disp.blit(bomb.image, bomb.rect)     
         bombs.update()                               #爆弾座標のアップデート
-        bombs.draw(screan.disp)                          
+        bombs.draw(screan.disp)                      #爆弾画像の貼り付け                        
 
 
-        if pg.sprite.collide_rect(bird, bomb):        #とりが爆弾に衝突したとき
+        if len(pg.sprite.groupcollide(birds, bombs, False, False)) != 0:        #とりが爆弾に衝突したとき
             return                                  #whileを抜ける
 
         for event in pg.event.get():
