@@ -75,7 +75,8 @@ class Enemy(pg.sprite.Sprite):      #敵のマレットを描画するための�
 class Ball(pg.sprite.Sprite):       #ボールを描画するためのクラス
 
     def __init__(self, bx, by, vx, vy, size, color, sounds):
-        # bx:ボールのｙ座標, by:ボールのx座標,vx:ボール（ｘ方向）進む速さ,vy:ボール（ｙ方向）に進む速さ,sounds:bgmのリスト
+        # bx:ボールのｙ座標, by:ボールのx座標,vx:ボール（ｘ方向）進む速さ
+        # vy:ボール（ｙ方向）に進む速さ,sounds:bgmのリスト
         super().__init__()
         self.image = pg.Surface((size, size))              #sizeの大きさのsurfaceを用意
         pg.draw.circle(self.image, color,(size/2, size/2), size/2)      #surface上に円を描写
@@ -105,14 +106,15 @@ class Goal(pg.sprite.Sprite):         #ゴールを描画するためのクラ�
         self.num = num
 
 def main():
-    font_score, font_time, font_text_one, font_text_two = pg.font.Font(None, 150), pg.font.Font(None, 200), \
-                                                            pg.font.Font(None, 350), pg.font.Font(None, 250)     #使用するフォント
+    font_score, font_time = pg.font.Font(None, 150), pg.font.Font(None, 200)
+    font_text_one, font_text_two = pg.font.Font(None, 350), pg.font.Font(None, 250)     #使用するフォント                              
     ball_num = []       #ボールが追加された時間を保持するリストの初期化
     screan_num = 0      #スタート画面、プレイ画面、結果画面切り替え用numの初期化
     time = 60            #時間の初期化
     pg.time.set_timer(pg.USEREVENT, 1000)
-    sounds = [pg.mixer.Sound("oto/ball.wav"), pg.mixer.Sound("oto/bgm1.wav"),  pg.mixer.Sound("oto/goal1.wav"),  \
-                pg.mixer.Sound("oto/goal2.wav"),  pg.mixer.Sound("oto/mallet.wav"), pg.mixer.Sound("oto/start.wav")]        #BGM、効果音のリスト
+    sounds = [pg.mixer.Sound("oto/ball.wav"), pg.mixer.Sound("oto/bgm1.wav"), \
+                pg.mixer.Sound("oto/goal1.wav"), pg.mixer.Sound("oto/goal2.wav"),  \
+                    pg.mixer.Sound("oto/mallet.wav"), pg.mixer.Sound("oto/start.wav")]        #BGM、効果音のリスト
 
     screan = Screan(1600, 900, "ホッケー")
 
@@ -159,10 +161,12 @@ def main():
             for mallet in mallets:              #マレット用のコンテナから一つずつ取り出す
                 for ball in ball_group:         #ボール用コンテナから一つずつ取り出す
                     if pg.sprite.collide_rect(mallet, ball):
-                        if ball.rect.centerx >= mallet.rect.centerx + 35 or ball.rect.centerx <= mallet.rect.centerx - 35:
+                        if ball.rect.centerx >= mallet.rect.centerx + 35 or \
+                                    ball.rect.centerx <= mallet.rect.centerx - 35:
                             ball.vx *= -1
                             sounds[4].play()
-                        if ball.rect.centery >= mallet.rect.centery + 35 or ball.rect.centery <= mallet.rect.centery - 35:
+                        if ball.rect.centery >= mallet.rect.centery + 35 or \
+                                    ball.rect.centery <= mallet.rect.centery - 35:
                             ball.vy *= -1
                             sounds[4].play()
 
@@ -170,13 +174,15 @@ def main():
             for goal in goals:                  #ゴール用のコンテナから一つずつ取り出す
                 for ball in ball_group:         #ボール用のコンテナから一つずつ取り出す
                     if pg.sprite.collide_rect(goal, ball):
-                        if ball.rect.centerx >= goal.rect.centerx + 5 or ball.rect.centerx <= goal.rect.centerx - 5:
+                        if ball.rect.centerx >= goal.rect.centerx + 5 or\
+                                     ball.rect.centerx <= goal.rect.centerx - 5:
                             ball.vx *= -1
                             goal.score += 1         #得点を追加
                             if goal.num == 1: sounds[2].play()
                             else:sounds[3].play()
                                 
-                        if ball.rect.centery >= goal.rect.centery + 200 or ball.rect.centery <= goal.rect.centery - 200:
+                        if ball.rect.centery >= goal.rect.centery + 200 or \
+                                    ball.rect.centery <= goal.rect.centery - 200:
                             ball.vy *= -1
                             sounds[2].play()
             
@@ -212,15 +218,18 @@ def main():
             screan.disp.fill((0,0,0))
 
             #得点の表示
-            if goal1_score > goal0_score:
+            if goal1_score > goal0_score:       #左側が勝利の場合
                 screan.disp.blit(font_text_one.render("RED win", True, (255, 0, 0)), [100, 450])
-                screan.disp.blit(font_text_one.render(f"{goal1_score} : {goal0_score}", True, (255, 255, 255)), [100, 100])
-            elif goal1_score < goal0_score:
+                txt = f"{goal1_score} : {goal0_score}"
+                screan.disp.blit(font_text_one.render(txt, True, (255, 255, 255)), [100, 100])
+            elif goal1_score < goal0_score:     #右側が勝利の場合
                 screan.disp.blit(font_text_one.render("BLUE win", True, (0, 200, 255)), [100, 450])
-                screan.disp.blit(font_text_one.render(f"{goal1_score} : {goal0_score}", True, (255, 255, 255)), [100, 100])
-            else:
+                txt = f"{goal1_score} : {goal0_score}"
+                screan.disp.blit(font_text_one.render(txt, True, (255, 255, 255)), [100, 100])
+            else:                               #引き分けの場合
                 screan.disp.blit(font_text_one.render("Drew", True, (0, 255, 0)), [100, 450])
-                screan.disp.blit(font_text_one.render(f"{goal1_score} : {goal0_score}", True, (255, 255, 255)), [100, 100])
+                txt = f"{goal1_score} : {goal0_score}"
+                screan.disp.blit(font_text_one.render(txt, True, (255, 255, 255)), [100, 100])
 
             for event in pg.event.get():
                 if event.type == pg.QUIT: return
