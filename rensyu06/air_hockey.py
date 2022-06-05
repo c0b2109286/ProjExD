@@ -106,15 +106,17 @@ class Goal(pg.sprite.Sprite):         #ゴールを描画するためのクラ�
         self.num = num
 
 def main():
+    #使用するフォント
     font_score, font_time = pg.font.Font(None, 150), pg.font.Font(None, 200)
-    font_text_one, font_text_two = pg.font.Font(None, 350), pg.font.Font(None, 250)     #使用するフォント                              
+    font_text_one, font_text_two = pg.font.Font(None, 350), pg.font.Font(None, 250)                                   
     ball_num = []       #ボールが追加された時間を保持するリストの初期化
     screan_num = 0      #スタート画面、プレイ画面、結果画面切り替え用numの初期化
     time = 60            #時間の初期化
-    pg.time.set_timer(pg.USEREVENT, 1000)
+    pg.time.set_timer(pg.USEREVENT, 1000)       #1秒ごとにUSEREVENTを実行
+    #BGM、効果音のリスト
     sounds = [pg.mixer.Sound("oto/ball.wav"), pg.mixer.Sound("oto/bgm1.wav"), \
                 pg.mixer.Sound("oto/goal1.wav"), pg.mixer.Sound("oto/goal2.wav"),  \
-                    pg.mixer.Sound("oto/mallet.wav"), pg.mixer.Sound("oto/start.wav")]        #BGM、効果音のリスト
+                    pg.mixer.Sound("oto/mallet.wav"), pg.mixer.Sound("oto/start.wav")]        
 
     screan = Screan(1600, 900, "ホッケー")
 
@@ -202,7 +204,8 @@ def main():
 
             #ボールの増加を行う
             if int(time) % 10 == 0 and int(time) not in ball_num:
-                ball_group.add(Ball(500, 450, -1, 1, 40, (0, 255, 0), sounds))        #ボール用コンテナにボールを追加
+                #ボール用コンテナにボールを追加
+                ball_group.add(Ball(500, 450, -1, 1, 40, (0, 255, 0), sounds))        
                 #コンテナに追加した時点の時間を追加し、同時刻での二つ以上の追加を防ぐ
                 ball_num.append(int(time))                                            
 
